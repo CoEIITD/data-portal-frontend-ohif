@@ -1,7 +1,7 @@
 const apiBaseUrl = 'http://rtx4090b.cse.iitd.ac.in:8000/api/v1';
-// apiBaseUrl = 'http://10.184.164.236:8000/api/v1';
-// const apiBaseUrl = 'http://10.194.167.60:8000/api/v1';
-
+// const apiBaseUrl = 'http://10.184.174.80:8000/api/v1';
+// const apiBaseUrl = 'http://10.194.165.80:8000/api/v1';
+// const apiBaseUrl = 'http://coe-aih.apps.iitd.ac.in/data-portal/api/v1';
 const availableMlModels = {
   'LQ Adapter': {
     displayName: 'LQ Adapter',
