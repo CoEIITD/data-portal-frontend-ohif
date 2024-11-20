@@ -34,6 +34,7 @@ import {
 import { Types } from '@ohif/ui';
 
 import i18n from '@ohif/i18n';
+import { Onboarding } from '@ohif/ui-next';
 
 const PatientInfoVisibility = Types.PatientInfoVisibility;
 
@@ -275,16 +276,11 @@ function WorkList({
         {
           key: 'patientName',
           content: patientName ? (
-            <TooltipClipboard>{patientName}</TooltipClipboard>
+            <TooltipClipboard>Study {rowKey}</TooltipClipboard>
           ) : (
             <span className="text-gray-700">(Empty)</span>
           ),
           gridCol: 4,
-        },
-        {
-          key: 'mrn',
-          content: <TooltipClipboard>{mrn}</TooltipClipboard>,
-          gridCol: 3,
         },
         {
           key: 'studyDate',
@@ -341,6 +337,7 @@ function WorkList({
             modality: t('StudyList:Modality'),
             instances: t('StudyList:Instances'),
           }}
+          studyInstanceUid={studyInstanceUid}
           seriesTableDataSource={
             seriesInStudiesMap.has(studyInstanceUid)
               ? seriesInStudiesMap.get(studyInstanceUid).map(s => {
@@ -411,7 +408,7 @@ function WorkList({
                       disabled={!isValidMode}
                       startIconTooltip={
                         !isValidMode ? (
-                          <div className="font-inter flex w-[206px] whitespace-normal text-left text-xs font-normal text-white	">
+                          <div className="font-inter flex w-[206px] whitespace-normal text-left text-xs font-normal text-white">
                             {invalidModeDescription}
                           </div>
                         ) : null
@@ -534,6 +531,7 @@ function WorkList({
         WhiteLabeling={appConfig.whiteLabeling}
         showPatientInfo={PatientInfoVisibility.DISABLED}
       />
+      <Onboarding />
       <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
       <div className="ohif-scrollbar ohif-scrollbar-stable-gutter flex grow flex-col overflow-y-auto sm:px-5">
         <StudyListFilter

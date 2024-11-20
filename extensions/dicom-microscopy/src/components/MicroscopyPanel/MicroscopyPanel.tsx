@@ -8,6 +8,7 @@ import dcmjs from 'dcmjs';
 import callInputDialog from '../../utils/callInputDialog';
 import constructSR from '../../utils/constructSR';
 import { saveByteArray } from '../../utils/saveByteArray';
+import { Separator } from '@ohif/ui-next';
 
 let saving = false;
 const { datasetToBuffer } = dcmjs.data;

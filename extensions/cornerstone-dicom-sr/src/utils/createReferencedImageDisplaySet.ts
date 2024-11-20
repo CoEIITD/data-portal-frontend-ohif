@@ -3,7 +3,9 @@ import { DisplaySetService, classes } from '@ohif/core';
 const ImageSet = classes.ImageSet;
 
 const findInstance = (measurement, displaySetService: DisplaySetService) => {
+  // console.log(measurement);
   const { displaySetInstanceUID, ReferencedSOPInstanceUID: sopUid } = measurement;
+
   const referencedDisplaySet = displaySetService.getDisplaySetByUID(displaySetInstanceUID);
   if (!referencedDisplaySet.images) {
     return;
@@ -18,8 +20,10 @@ const findInstance = (measurement, displaySetService: DisplaySetService) => {
 const findReferencedInstances = (displaySetService: DisplaySetService, displaySet) => {
   const instances = [];
   const instanceById = {};
+
   for (const measurement of displaySet.measurements) {
     const { imageId } = measurement;
+
     if (!imageId) {
       continue;
     }
@@ -29,7 +33,7 @@ const findReferencedInstances = (displaySetService: DisplaySetService, displaySe
 
     const instance = findInstance(measurement, displaySetService);
     if (!instance) {
-      console.log('Measurement', measurement, 'had no instances found');
+      console.log('Measurement', imageId, 'had no instances found');
       continue;
     }
 
@@ -61,9 +65,14 @@ const createReferencedImageDisplaySet = (displaySetService, displaySet) => {
 
   const imageSet = new ImageSet(instances);
   const instance = instances[0];
+
+  if (!instance) {
+    return;
+  }
+
   imageSet.setAttributes({
     displaySetInstanceUID: imageSet.uid, // create a local alias for the imageSet UID
-    SeriesDate: instance.SeriesDate,
+    SeriesDate: instance?.SeriesDate ?? '',
     SeriesTime: instance.SeriesTime,
     SeriesInstanceUID: imageSet.uid,
     StudyInstanceUID: instance.StudyInstanceUID,

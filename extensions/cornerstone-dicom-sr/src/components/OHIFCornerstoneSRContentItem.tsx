@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import CodeNameCodeSequenceValues from '../constants/CodeNameCodeSequenceValues';
+import { CodeNameCodeSequenceValues } from '../enums';
 import formatContentItemValue from '../utils/formatContentItem';
 
 const EMPTY_TAG_VALUE = '[empty]';
 
 function OHIFCornerstoneSRContentItem(props) {
   const { contentItem, nodeIndexesTree, continuityOfContent } = props;
-  const { ConceptNameCodeSequence } = contentItem;
-  const { CodeValue, CodeMeaning } = ConceptNameCodeSequence;
+  const { ConceptNameCodeSequence } = contentItem || {};
+  const { CodeValue, CodeMeaning } = ConceptNameCodeSequence || {};
   const isChildFirstNode = nodeIndexesTree[nodeIndexesTree.length - 1] === 0;
   const formattedValue = formatContentItemValue(contentItem) ?? EMPTY_TAG_VALUE;
   const startWithAlphaNumCharRegEx = /^[a-zA-Z0-9]/;

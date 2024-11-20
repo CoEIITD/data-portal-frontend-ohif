@@ -22,10 +22,14 @@ const tracked = {
   measurements: '@ohif/extension-measurement-tracking.panelModule.trackedMeasurements',
   thumbnailList: '@ohif/extension-measurement-tracking.panelModule.seriesList',
   viewport: '@ohif/extension-measurement-tracking.viewportModule.cornerstone-tracked',
+  gbc: '@ohif/extension-measurement-tracking.panelModule.gbcPanel',
+  mammo: '@ohif/extension-measurement-tracking.panelModule.MammoPanel',
+  xray: '@ohif/extension-measurement-tracking.panelModule.XRayPanel',
 };
 
 const dicomsr = {
   sopClassHandler: '@ohif/extension-cornerstone-dicom-sr.sopClassHandlerModule.dicom-sr',
+  sopClassHandler3D: '@ohif/extension-cornerstone-dicom-sr.sopClassHandlerModule.dicom-sr-3d',
   viewport: '@ohif/extension-cornerstone-dicom-sr.viewportModule.dicom-sr',
 };
 
@@ -191,14 +195,15 @@ function modeFactory({ modeConfiguration }) {
             id: ohif.layout,
             props: {
               leftPanels: [tracked.thumbnailList],
-              rightPanels: [dicomSeg.panel, tracked.measurements],
-              rightPanelClosed: true,
+              rightPanels: [tracked.mammo, tracked.gbc, tracked.xray, tracked.measurements],
+              rightPanelClosed: false,
               viewports: [
                 {
                   namespace: tracked.viewport,
                   displaySetsToDisplay: [
                     ohif.sopClassHandler,
                     dicomvideo.sopClassHandler,
+                    dicomsr.sopClassHandler3D,
                     ohif.wsiSopClassHandler,
                   ],
                 },
@@ -206,10 +211,6 @@ function modeFactory({ modeConfiguration }) {
                   namespace: dicomsr.viewport,
                   displaySetsToDisplay: [dicomsr.sopClassHandler],
                 },
-                // {
-                //   namespace: dicomvideo.viewport,
-                //   displaySetsToDisplay: [dicomvideo.sopClassHandler],
-                // },
                 {
                   namespace: dicompdf.viewport,
                   displaySetsToDisplay: [dicompdf.sopClassHandler],
@@ -246,6 +247,7 @@ function modeFactory({ modeConfiguration }) {
       ohif.sopClassHandler,
       ohif.wsiSopClassHandler,
       dicompdf.sopClassHandler,
+      dicomsr.sopClassHandler3D,
       dicomsr.sopClassHandler,
       dicomRT.sopClassHandler,
     ],

@@ -1,19 +1,13 @@
 import React from 'react';
 
 import { useAppConfig } from '@state';
-import { Toolbox } from '@ohif/ui';
+import { Toolbox } from '@ohif/ui-next';
 import PanelSegmentation from './panels/PanelSegmentation';
 
-const getPanelModule = ({
-  commandsManager,
-  servicesManager,
-  extensionManager,
-  configuration,
-  title,
-}: withAppTypes) => {
+const getPanelModule = ({ commandsManager, servicesManager, extensionManager }: withAppTypes) => {
   const { customizationService } = servicesManager.services;
 
-  const wrappedPanelSegmentation = configuration => {
+  const wrappedPanelSegmentation = ({ configuration }) => {
     const [appConfig] = useAppConfig();
 
     return (
@@ -30,7 +24,7 @@ const getPanelModule = ({
     );
   };
 
-  const wrappedPanelSegmentationWithTools = configuration => {
+  const wrappedPanelSegmentationWithTools = ({ configuration }) => {
     const [appConfig] = useAppConfig();
 
     return (

@@ -6,10 +6,21 @@ import TableHead from '../TableHead';
 import TableBody from '../TableBody';
 import TableRow from '../TableRow';
 import TableCell from '../TableCell';
+import Buttons from './Buttons';
 
-const StudyListExpandedRow = ({ seriesTableColumns, seriesTableDataSource, children }) => {
+const StudyListExpandedRow = ({
+  seriesTableColumns,
+  studyInstanceUid,
+  seriesTableDataSource,
+  children,
+}) => {
+  console.log('MASTER', studyInstanceUid, seriesTableColumns, seriesTableDataSource, children);
+
   return (
     <div className="w-full bg-black py-4 pl-12 pr-2">
+      <div className=""></div>
+      <Buttons studyInstanceUid={studyInstanceUid}></Buttons>
+
       <div className="block">{children}</div>
       <div className="mt-4">
         <Table>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { DynamicDataPanel } from './panels';
-import { Toolbox } from '@ohif/ui';
+import { Toolbox } from '@ohif/ui-next';
 import DynamicExport from './panels/DynamicExport';
 
 function getPanelModule({ commandsManager, extensionManager, servicesManager }) {
-  const wrappedDynamicDataPanel = () => {
+  const wrappedDynamicDataPanel = ({}) => {
     return (
       <DynamicDataPanel
         commandsManager={commandsManager}
@@ -14,7 +14,7 @@ function getPanelModule({ commandsManager, extensionManager, servicesManager }) 
     );
   };
 
-  const wrappedDynamicToolbox = () => {
+  const wrappedDynamicToolbox = ({}) => {
     return (
       <>
         <Toolbox

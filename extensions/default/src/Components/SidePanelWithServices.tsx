@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { SidePanel } from '@ohif/ui';
+import { SidePanel } from '@ohif/ui-next';
 import { Types } from '@ohif/core';
+import { SidePanelModified } from '@ohif/ui';
 
 export type SidePanelWithServicesProps = {
   servicesManager: AppTypes.ServicesManager;
@@ -76,7 +77,7 @@ const SidePanelWithServices = ({
   }, [tabs, hasBeenOpened, panelService]);
 
   return (
-    <SidePanel
+    <SidePanelModified
       {...props}
       side={side}
       tabs={tabs}
@@ -84,7 +85,7 @@ const SidePanelWithServices = ({
       onOpen={handleSidePanelOpen}
       onActiveTabIndexChange={handleActiveTabIndexChange}
       expandedWidth={expandedWidth}
-    ></SidePanel>
+    ></SidePanelModified>
   );
 };
 

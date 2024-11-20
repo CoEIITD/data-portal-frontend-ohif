@@ -17,6 +17,7 @@ import createReportDialogPrompt, {
 } from './createReportDialogPrompt';
 import createReportAsync from '../Actions/createReportAsync';
 import findSRWithSameSeriesDescription from '../utils/findSRWithSameSeriesDescription';
+import { Separator } from '@ohif/ui-next';
 
 const { downloadCSVReport } = utils;
 

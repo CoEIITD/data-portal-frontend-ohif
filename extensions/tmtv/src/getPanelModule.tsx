@@ -1,6 +1,6 @@
 import React from 'react';
 import { PanelPetSUV, PanelROIThresholdExport } from './Panels';
-import { Toolbox } from '@ohif/ui';
+import { Toolbox } from '@ohif/ui-next';
 
 // TODO:
 // - No loading UI exists yet
@@ -8,16 +8,17 @@ import { Toolbox } from '@ohif/ui';
 // - show errors in UI for thumbnails if promise fails
 
 function getPanelModule({ commandsManager, extensionManager, servicesManager }) {
-  const wrappedPanelPetSuv = () => {
+  const wrappedPanelPetSuv = ({}) => {
     return (
       <PanelPetSUV
         commandsManager={commandsManager}
         servicesManager={servicesManager}
+        extensionManager={extensionManager}
       />
     );
   };
 
-  const wrappedROIThresholdToolbox = () => {
+  const wrappedROIThresholdToolbox = ({}: withAppTypes) => {
     return (
       <>
         <Toolbox

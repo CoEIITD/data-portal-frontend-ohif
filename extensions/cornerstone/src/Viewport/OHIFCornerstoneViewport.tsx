@@ -17,6 +17,7 @@ import type { Types } from '@ohif/core';
 import OHIFViewportActionCorners from '../components/OHIFViewportActionCorners';
 import { getWindowLevelActionMenu } from '../components/WindowLevelActionMenu/getWindowLevelActionMenu';
 import { useAppConfig } from '@state';
+import eventEmitter from '../utils/eventEmitter';
 
 import { LutPresentation, PositionPresentation } from '../types/Presentation';
 
@@ -344,6 +345,8 @@ const OHIFCornerstoneViewport = React.memo((props: withAppTypes) => {
     };
 
     loadViewportData();
+    // console.log('Emitting displaySets:', displaySets);
+    eventEmitter.emitDisplaySets(displaySets);
   }, [viewportOptions, displaySets, dataSource]);
 
   /**
@@ -610,5 +613,4 @@ OHIFCornerstoneViewport.propTypes = {
   // to set the initial state of the viewport's first image to render
   initialImageIdOrIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
-
 export default OHIFCornerstoneViewport;
