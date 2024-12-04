@@ -1,16 +1,8 @@
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import React, { CSSProperties, useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback, useEffect, useState } from 'react';
 import Select from 'react-select';
-import Icon from '../Icon';
-import Tooltip from '../Tooltip';
-
-const OptionEnum = {
-  Mammo: 'Mammo',
-  GBC: 'GBC',
-  XRay: 'X-Ray',
-};
+import { OptionEnum } from '../../../../../extensions/cornerstone/src/utils/OptionEnum';
 
 type StyleMap = {
   open: {
@@ -25,8 +17,6 @@ type StyleMap = {
 const borderSize = 4;
 const collapsedWidth = 25;
 const closeIconWidth = 30;
-const gridHorizontalPadding = 10;
-const tabSpacerWidth = 2;
 
 const baseClasses =
   'transition-all duration-300 ease-in-out bg-black border-black justify-start box-content flex flex-col';
@@ -42,89 +32,6 @@ const classesMap = {
   },
 };
 
-const openStateIconName = {
-  left: 'side-panel-close-left',
-  right: 'side-panel-close-right',
-};
-
-const getTabWidth = (numTabs: number) => {
-  if (numTabs < 3) {
-    return 68;
-  } else {
-    return 40;
-  }
-};
-
-const getGridWidth = (numTabs: number, gridAvailableWidth: number) => {
-  const spacersWidth = (numTabs - 1) * tabSpacerWidth;
-  const tabsWidth = getTabWidth(numTabs) * numTabs;
-
-  if (gridAvailableWidth > tabsWidth + spacersWidth) {
-    return tabsWidth + spacersWidth;
-  }
-
-  return gridAvailableWidth;
-};
-
-const getNumGridColumns = (numTabs: number, gridWidth: number) => {
-  if (numTabs === 1) {
-    return 1;
-  }
-
-  // Start by calculating the number of tabs assuming each tab was accompanied by a spacer.
-  const tabWidth = getTabWidth(numTabs);
-  const numTabsWithOneSpacerEach = Math.floor(gridWidth / (tabWidth + tabSpacerWidth));
-
-  // But there is always one less spacer than tabs, so now check if an extra tab with one less spacer fits.
-  if (
-    (numTabsWithOneSpacerEach + 1) * tabWidth + numTabsWithOneSpacerEach * tabSpacerWidth <=
-    gridWidth
-  ) {
-    return numTabsWithOneSpacerEach + 1;
-  }
-
-  return numTabsWithOneSpacerEach;
-};
-
-const getGridStyle = (
-  side: string,
-  numTabs: number = 0,
-  gridWidth: number,
-  expandedWidth: number
-): CSSProperties => {
-  const relativePosition = Math.max(0, Math.floor(expandedWidth - gridWidth) / 2 - closeIconWidth);
-  return {
-    position: 'relative',
-    ...(side === 'left' ? { right: `${relativePosition}px` } : { left: `${relativePosition}px` }),
-    width: `${gridWidth}px`,
-  };
-};
-
-const getTabClassNames = (
-  numColumns: number,
-  numTabs: number,
-  tabIndex: number,
-  isActiveTab: boolean,
-  isTabDisabled: boolean
-) =>
-  classnames('h-[28px] mb-[2px] cursor-pointer text-white bg-black', {
-    'hover:text-primary-active': !isActiveTab && !isTabDisabled,
-    'rounded-l': tabIndex % numColumns === 0,
-    'rounded-r': (tabIndex + 1) % numColumns === 0 || tabIndex === numTabs - 1,
-  });
-
-const getTabStyle = (numTabs: number) => {
-  return {
-    width: `${getTabWidth(numTabs)}px`,
-  };
-};
-
-const getTabIconClassNames = (numTabs: number, isActiveTab: boolean) => {
-  return classnames('h-full w-full flex items-center justify-center', {
-    'bg-customblue-40': isActiveTab,
-    rounded: isActiveTab,
-  });
-};
 const createStyleMap = (
   expandedWidth: number,
   borderSize: number,
@@ -142,15 +49,6 @@ const createStyleMap = (
       right: { marginRight: `-${collapsedHideWidth}px` },
     },
   };
-};
-
-const getToolTipContent = (label: string, disabled: boolean) => {
-  return (
-    <>
-      <div>{label}</div>
-      {disabled && <div className="text-white">{'Not available based on current context'}</div>}
-    </>
-  );
 };
 
 const createBaseStyle = (expandedWidth: number) => {
@@ -173,15 +71,11 @@ const SidePanelModified = ({
   expandedWidth = 248,
   onActiveTabIndexChange,
 }) => {
-  const { t } = useTranslation('SidePanelModified');
-
   const [panelOpen, setPanelOpen] = useState(activeTabIndexProp !== null);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const styleMap = createStyleMap(expandedWidth, borderSize, collapsedWidth);
   const baseStyle = createBaseStyle(expandedWidth);
-  const gridAvailableWidth = expandedWidth - closeIconWidth - gridHorizontalPadding;
-  const gridWidth = getGridWidth(tabs.length, gridAvailableWidth);
   const openStatus = 'open';
   const style = Object.assign({}, styleMap[openStatus][side], baseStyle);
 
@@ -216,62 +110,6 @@ const SidePanelModified = ({
     updateActiveTabIndex(activeTabIndexProp);
   }, [activeTabIndexProp, updateActiveTabIndex]);
 
-  const getCloseStateComponent = () => {
-    const _childComponents = Array.isArray(tabs) ? tabs : [tabs];
-    return (
-      <>
-        <div
-          className={classnames(
-            'bg-secondary-dark flex h-[28px] w-full cursor-pointer items-center rounded-md',
-            side === 'left' ? 'justify-end pr-2' : 'justify-start pl-2'
-          )}
-          onClick={() => {
-            updatePanelOpen(!panelOpen);
-          }}
-          data-cy={`side-panel-header-${side}`}
-        >
-          <Icon
-            name={'navigation-panel-right-reveal'}
-            className={classnames('text-primary-active', side === 'left' && 'rotate-180 transform')}
-          />
-        </div>
-        <div className={classnames('mt-3 flex flex-col space-y-3')}>
-          {_childComponents.map((childComponent, index) => (
-            <Tooltip
-              position={side === 'left' ? 'right' : 'left'}
-              key={index}
-              content={getToolTipContent(childComponent.label, childComponent.disabled)}
-              className={classnames(
-                'flex items-center',
-                side === 'left' ? 'justify-end' : 'justify-start'
-              )}
-            >
-              <div
-                id={`${childComponent.name}-btn`}
-                data-cy={`${childComponent.name}-btn`}
-                className="text-primary-active hover:cursor-pointer"
-                onClick={() => {
-                  return childComponent.disabled ? null : updateActiveTabIndex(index);
-                }}
-              >
-                <Icon
-                  name={childComponent.iconName}
-                  className={classnames({
-                    'text-primary-active': true,
-                    'ohif-disabled': childComponent.disabled,
-                  })}
-                  style={{
-                    width: '22px',
-                    height: '22px',
-                  }}
-                />
-              </div>
-            </Tooltip>
-          ))}
-        </div>
-      </>
-    );
-  };
   const getOneTabComponent = () => {
     return (
       <div

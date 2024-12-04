@@ -6,6 +6,9 @@ import axios from 'axios';
 import apiClient from '../../../../../platform/ui/src/apis/apiClient';
 import eventEmitter from '../../../../cornerstone/src/utils/eventEmitter';
 import { Classification } from '../Classification';
+import { OptionEnum } from '../../../../cornerstone/src/utils/OptionEnum';
+import RunModel from '../../runModelButton';
+
 function ActionButtons({ disabled = false, data = null, orthancId = null }) {
   const { t } = useTranslation('MeasurementTable');
   const [formData, setFormData] = useState({
@@ -143,21 +146,6 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
       alert('Failed to submit ground truth data');
     }
   };
-  const handleRunModelsClick = async () => {
-    const response = await apiClient.handleMammoModel(studyInstanceUid, setToastMessage);
-    console.log('Mammo model processing started:', response);
-    // alert(response.result.message);
-    // } catch (error) {
-    //   console.error('Failed to start mammo model processing:', error);
-    //   alert('Failed to start mammo model processing.');
-    // }
-  };
-
-  //   console.log('Indications:', indications);
-  //   console.log('Findings:', findings);
-  //   console.log('Histopathology:', histopathology);
-  //   console.log('Annotations:', submissionData);
-  // };
 
   const isSubmitDisabled = formData.findings.trim() === '' || formData.indications.trim() === '';
 
@@ -257,18 +245,18 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
     }
   };
   const [displaySets, setDisplaySets] = useState<any>(eventEmitter.getLastDisplaySets());
-  const [currentImage, setCurrentImage] = useState(null);
+  const [currentSeriesUid, setcurrentSeriesUid] = useState(null);
 
   useEffect(() => {
     getModelResult();
     // console.log('Initial displaySets on load:', displaySets);
     if (displaySets) {
-      setCurrentImage(displaySets[0]['SeriesInstanceUID']);
+      setcurrentSeriesUid(displaySets[0]['SeriesInstanceUID']);
     }
     const handleViewportDataLoaded = (data: any) => {
       // console.log('Received displaySets:', data);
       if (data) {
-        setCurrentImage(data[0]['SeriesInstanceUID']);
+        setcurrentSeriesUid(data[0]['SeriesInstanceUID']);
         setDisplaySets(data);
       }
     };
@@ -280,10 +268,6 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
       eventEmitter.off('viewportDataLoaded', handleViewportDataLoaded);
     };
   }, []);
-
-  // useEffect(() => {
-  //   console.log('Current image updated:', currentImage);
-  // }, [currentImage]);
 
   return (
     <div className="m-2">
@@ -425,6 +409,7 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
             </Button>
           </div>
 
+          <h2 className="mb-4 mt-3 text-xl font-semibold text-white">Ground Truth</h2>
           <div className="mb-4">
             <label className="mb-1 block text-white">Add Indications*:</label>
             <input
@@ -491,20 +476,24 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
           </Button> */}
         </div>
       </form>
+      <div>
+        <RunModel type={OptionEnum.Mammo} />
+      </div>
+
       {/* Model Result Display */}
-      <h2 className="mb-4 text-xl font-semibold text-white">Classification Results</h2>
-      <div className="mb-6 flex flex-col space-y-4">
+      <h2 className="mb-4 mt-3 text-xl font-semibold text-white">Classification Results</h2>
+      <div className="mb-6 mt-3 flex flex-col space-y-4">
         {modelResult ? (
           <>
-            {modelResult.has(currentImage) ? (
+            {modelResult.has(currentSeriesUid) ? (
               <div
                 className={`p-2 font-bold text-white ${
-                  modelResult.get(currentImage) === Classification.Malignant
+                  modelResult.get(currentSeriesUid) === Classification.Malignant
                     ? 'bg-red-500' // Color for Malignant
                     : 'bg-green-500' // Color for NonMalignant
                 }`}
               >
-                {modelResult.get(currentImage)}
+                {modelResult.get(currentSeriesUid)}
               </div>
             ) : (
               <p className="text-red-400">Model not run yet</p>
@@ -515,13 +504,13 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
         )}
       </div>
 
-      <Button
+      {/* <Button
         className="m-2 ml-0"
         // size={ButtonEnums.size.small}
         onClick={handleRunModelsClick}
       >
         Run Models
-      </Button>
+      </Button> */}
     </div>
   );
 }
