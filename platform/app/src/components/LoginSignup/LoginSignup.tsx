@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import apiClient from '../../api/apiClient'; // Correct import path
 import './LoginSignup.css'; // Import the CSS file for styles
 import iitdelhiImage from '../../assests/iitdelhi.png';
-import aiimsdelhiImage from '../../assests/aiimsdelhi.png';
+// import aiimsdelhiImage from '../../assests/aiimsdelhi.png';
+import aihLogo from '../../assests/aihLogo.png';
 
 const LoginSignup = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
@@ -32,19 +33,40 @@ const LoginSignup = ({ setIsAuthenticated }) => {
     <div className="login-container">
       {/* New heading and image */}
       <div className="header-container">
-        <h1 className="neon-heading">CoE Data Portal</h1>
         <div className="logos">
+          <img
+            src={aihLogo} // Replace with your image path
+            alt="Logo"
+            className="circular-image"
+            style={{
+              width: '200px',
+              height: '180px',
+              marginRight: '25px',
+              objectFit: 'contain', // Ensures the image is fully visible without cropping
+            }}
+          />
           <img
             src={iitdelhiImage} // Replace with your image path
             alt="Logo"
             className="circular-image"
-          />
-          <img
-            src={aiimsdelhiImage} // Replace with your image path
-            alt="Logo"
-            className="circular-image"
+            style={{
+              width: '140px', // Adjust to your desired size
+              height: '140px', // Keep it the same as width to maintain the circle
+              // borderRadius: '50%', // Ensures the image is circular
+              objectFit: 'contain', // Ensures the image is fully visible without cropping
+            }}
           />
         </div>
+
+        <span className="subsubheading">AI in Healthcare Lab at IIT Delhi</span>
+
+        <h1 className="neon-heading">
+          SWASTH
+          <span className="subheading">
+            Smart Workflow for AI-assisted <br />
+            Screening and Treatment in Healthcare
+          </span>
+        </h1>
       </div>
 
       <form
@@ -54,7 +76,7 @@ const LoginSignup = ({ setIsAuthenticated }) => {
         <h1 className="login-title">Login</h1>
         {error && <p className="login-error">{error}</p>}
         <div className="login-field">
-          <label className="login-label">Username</label>
+          <label className="login-label">Email Id</label>
           <input
             type="text"
             value={username}

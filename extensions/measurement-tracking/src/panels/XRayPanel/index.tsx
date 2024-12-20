@@ -289,12 +289,6 @@ function XRayPanel({
             <p className="text-red-400">Model not run yet</p>
           )}
         </div>
-        {/* <Button
-        className="m-2 ml-0"
-        onClick={handleRunModelsClick}
-      >
-        Run Models
-      </Button> */}
       </div>
     </div>
   );

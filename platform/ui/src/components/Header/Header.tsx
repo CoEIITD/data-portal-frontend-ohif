@@ -11,7 +11,7 @@ import Dropdown from '../Dropdown';
 import HeaderPatientInfo from '../HeaderPatientInfo';
 import { PatientInfoVisibility } from '../../types/PatientInfoVisibility';
 import { getData } from '../../../../../indexedDB';
-import DialogBox from './DialogBox';
+import aihLogo from '../../../../../platform/app/src/assests/aihLogo.png';
 
 function Header({
   children,
@@ -131,8 +131,20 @@ function Header({
                 className="w-8 text-white"
               />
             )}
+            <img
+              src={aihLogo} // Replace with your image path
+              alt="Logo"
+              style={{
+                width: '45px', // Adjust to your desired size
+                height: '45px', // Keep it the same as width to maintain the circle
+                borderRadius: '50%', // Ensures the image is circular
+                marginLeft: '10px', // Corrected to camelCase
+                marginRight: '5px',
+                objectFit: 'contain', // Ensures the image is fully visible without cropping
+              }}
+            />
             <div className="ml-1 text-sm text-white">
-              Breast Cancer Detection by IITD/AIIMS
+              SWASTH by AiH, IITD
               {/* {WhiteLabeling?.createLogoComponentFn?.(React, props) || <Svg name="logo-ohif" />} */}
             </div>
           </div>

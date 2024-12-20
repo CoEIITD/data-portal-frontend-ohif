@@ -1,4 +1,3 @@
-// import React, { useState } from 'react';
 import React, { useEffect, useState, useRef } from 'react';
 import Select from 'react-select';
 import { Button } from '@ohif/ui';
@@ -36,11 +35,27 @@ const customStyles = {
   }),
 };
 
-const options = [
-  { value: 'studies', label: 'Study' },
-  { value: 'series', label: 'Series' },
-  { value: 'frames', label: 'Frame' },
-];
+//Options bases on the type
+const getOptionsByType = (type?: RunModelProps['type']) => {
+  switch (type) {
+    case OptionEnum.Mammo:
+      return [
+        { value: 'study', label: 'All views' },
+        { value: 'series', label: 'Current View' },
+      ];
+    case OptionEnum.GBC:
+      return [
+        { value: 'study', label: 'All Frames' },
+        { value: 'frame', label: 'Current Frame' },
+      ];
+    default:
+      return [
+        { value: 'study', label: 'Study' },
+        { value: 'series', label: 'Series' },
+        { value: 'frames', label: 'Frame' },
+      ];
+  }
+};
 
 const RunModel: React.FC<RunModelProps> = ({ type = OptionEnum.Mammo }) => {
   const [toastMessage, setToastMessage] = useState('');
@@ -59,7 +74,6 @@ const RunModel: React.FC<RunModelProps> = ({ type = OptionEnum.Mammo }) => {
       setCurrentSeriesUid(displaySets[0]['SeriesInstanceUID']);
     }
 
-    // Handle viewportDataLoaded event
     const handleViewportDataLoaded = (data: any) => {
       if (data) {
         setCurrentSeriesUid(data[0]['SeriesInstanceUID']);
@@ -88,17 +102,20 @@ const RunModel: React.FC<RunModelProps> = ({ type = OptionEnum.Mammo }) => {
 
   const handleRunModelsClick = async () => {
     if (!selection) {
-      setToastMessage(
-        'Please select a scope (studies, series, or frames) before running the model.'
-      );
+      setToastMessage('Please select a scope (study, series, or frames) before running the model.');
       return;
     }
+
     let frame = currentFrame;
     let series = currentSeriesUid;
-    if (selection.label === 'Study') {
+
+    frame = (parseInt(frame) + 1).toString();
+    if (selection.value === 'study') {
       frame = 'all';
-      series = 'all';
-    } else if (selection.label === 'Series') {
+      if (type !== OptionEnum.GBC) {
+        series = 'all';
+      }
+    } else if (selection.value === 'series') {
       frame = 'all';
     }
 
@@ -107,65 +124,62 @@ const RunModel: React.FC<RunModelProps> = ({ type = OptionEnum.Mammo }) => {
     try {
       switch (type) {
         case OptionEnum.Mammo: {
-          const responseMammo = await apiClient.handleModel(
+          const response = await apiClient.handleModel(
             'MAMMO',
             series,
             frame,
             studyInstanceUid,
             setToastMessage
           );
-          console.log('Mammo model processing started:', responseMammo);
+          console.log('Mammo model processing started:', response);
           break;
         }
         case OptionEnum.GBC: {
-          const responseGBC = await apiClient.handleModel(
+          const response = await apiClient.handleModel(
             'GBC',
             series,
             frame,
             studyInstanceUid,
             setToastMessage
           );
-          console.log('GBC model processing started:', responseGBC);
+          console.log('GBC model processing started:', response);
           break;
         }
         case OptionEnum.XRay: {
-          const responseXRay = await apiClient.handleModel(
-            'XRay',
+          const response = await apiClient.handleModel(
+            'CXR',
             series,
             frame,
             studyInstanceUid,
             setToastMessage
           );
-          console.log('X-Ray model processing started:', responseXRay);
+          console.log('X-Ray model processing started:', response);
           break;
         }
-        default: {
+        default:
           console.log('Unknown model type');
-          break;
-        }
       }
     } catch (error) {
       console.error('Error occurred while processing the model:', error);
       setToastMessage('An error occurred while processing the model. Please try again.');
     } finally {
-      setIsLoading(false); // Set loading to false when process finishes
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      {toastMessage.length > 0 && (
+      {toastMessage && (
         <div className="fixed top-16 right-[35%] z-50 rounded bg-gray-800 px-4 py-2 text-xl text-white shadow-lg transition-opacity">
           {toastMessage}
         </div>
       )}
       <h2
         className="mt-1 text-xl font-semibold text-white"
-        style={{ marginBottom: '5px' }} // Reduced margin
+        style={{ marginBottom: '5px' }}
       >
         Run Models
       </h2>
-
       <div>
         <div
           className="dropdown-container"
@@ -173,45 +187,23 @@ const RunModel: React.FC<RunModelProps> = ({ type = OptionEnum.Mammo }) => {
         >
           <Select
             id="scopeSelect"
-            options={options}
+            options={getOptionsByType(type)}
             value={selection}
             onChange={setSelection}
             styles={customStyles}
             placeholder="Run Model On"
-            isClearable // Allow clearing the selection
-            menuPortalTarget={document.body} // Render the menu outside the parent container
-            menuPlacement="auto" // Adjust placement based on available space
+            isClearable
+            menuPortalTarget={document.body}
+            menuPlacement="auto"
           />
         </div>
         <Button
           className="m-2 ml-0"
           onClick={handleRunModelsClick}
-          disabled={isLoading} // Disable button when loading
+          disabled={isLoading}
         >
           {isLoading ? 'Processing...' : 'Run'}
         </Button>
-        {/* {isLoading && (
-          <div
-            className="loading-indicator"
-            style={{ marginTop: '5px', fontSize: '14px', color: '#555' }}
-          >
-            Loading...
-          </div>
-        )}
-        {toastMessage && (
-          <div
-            className="toast-message"
-            style={{
-              marginTop: '10px',
-              padding: '10px',
-              backgroundColor: '#f8d7da',
-              color: '#721c24',
-              borderRadius: '4px',
-            }}
-          >
-            {toastMessage}
-          </div>
-        )} */}
       </div>
     </>
   );

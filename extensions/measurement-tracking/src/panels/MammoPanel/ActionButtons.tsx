@@ -240,7 +240,7 @@ function ActionButtons({ disabled = false, data = null, orthancId = null }) {
       }
     } catch (error) {
       console.error('Failed to get Classification results', error);
-      alert('Failed to get Classification results');
+      // alert('Failed to get Classification results');
       setModelResult(null);
     }
   };

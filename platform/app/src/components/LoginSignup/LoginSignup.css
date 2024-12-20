@@ -20,7 +20,19 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #121212; /* Dark background for neon effect */
+  background-color: #121212;
+}
+
+.collaboration-text {
+  font-size: 1rem;
+  color: #888;
+  text-align: center;
+  margin-top: 1rem; /* Space between the heading and subheading */
+  line-height: 1.5; /* Adds spacing between the lines */
+}
+
+.break-text {
+  display: block; /* Forces the second part to a new line */
 }
 
 .header-container {
@@ -33,13 +45,31 @@ body {
   text-shadow:
     0 0 20px rgba(0, 255, 255, 0.5),
     0 0 30px rgba(0, 255, 255, 0.3);
-  font-size: 2.5rem;
+  font-size: 4rem;
   margin: 0;
+}
+.subheading {
+  font-size: 1rem;
+  display: block;
+  margin-top: 0rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #888;
+}
+.subsubheading {
+  font-size: 1rem;
+  display: block;
+  margin-top: 0rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  color: #888;
 }
 .logos {
   display: flex;
   justify-content: space-around;
+  align-items: center; /* Ensures both images are vertically centered */
 }
+
 .circular-image {
   /* margin-left: 90px; */
   width: 100px; /* Size of the circular image */
