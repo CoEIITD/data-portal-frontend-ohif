@@ -31,7 +31,7 @@ const Option = props => {
         </div>
         <label
           id={props.data.value}
-          className="ml-3 mt-1"
+          className="ml-3 mt-1 text-white" // Ensure text is readable on green background
         >
           <span>{props.value}</span>
         </label>
@@ -98,6 +98,17 @@ const Select = ({
       menuPortalTarget={document.body}
       styles={{
         menuPortal: base => ({ ...base, zIndex: 9999 }),
+        control: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isFocused ? 'bg-primary-main' : '#151515', // Green when focused
+          borderColor: state.isFocused ? 'bg-primary-main' : '#6c757d', // Border green when focused
+          color: '#ffffff',
+        }),
+        option: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isFocused ? 'bg-primary-main' : 'transparent', // Green when focused
+          color: state.isSelected ? '#ffffff' : '#d6d6d6',
+        }),
       }}
       value={value && Array.isArray(value) ? selectedOptions : value}
       onChange={(selectedOptions, { action }) => {

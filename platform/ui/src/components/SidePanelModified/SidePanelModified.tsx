@@ -139,12 +139,12 @@ const SidePanelModified = ({
     option: (provided, state) => ({
       ...provided,
       fontSize: 14,
-      color: 'blue',
+      color: 'black',
       backgroundColor: state.isSelected ? 'lightblue' : 'white',
     }),
     control: provided => ({
       ...provided,
-      border: '2px solid #007BFF',
+      border: '2px solid #00FF7FF',
       borderRadius: '5px',
       boxShadow: 'none',
       '&:hover': {

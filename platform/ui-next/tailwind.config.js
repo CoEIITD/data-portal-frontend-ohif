@@ -93,7 +93,7 @@ module.exports = {
       },
       bkg: {
         low: '#050615',
-        med: '#090C29',
+        med: '#0b2909',
         full: '#041C4A',
       },
       info: {
@@ -102,7 +102,7 @@ module.exports = {
       },
       actions: {
         primary: '#348CFD',
-        highlight: '#5ACCE6',
+        highlight: '#61e65a',
         hover: 'rgba(52, 140, 253, 0.2)',
       },
     },

@@ -12,20 +12,18 @@ interface RunModelProps {
 const customStyles = {
   control: provided => ({
     ...provided,
-    border: '2px solid #007BFF',
+    border: '2px solid #00FF7FF',
     borderRadius: '5px',
     boxShadow: 'none',
     '&:hover': {
       borderColor: '#0056b3',
     },
-    padding: '2px',
   }),
   option: (provided, state) => ({
     ...provided,
     fontSize: 14,
-    color: state.isSelected ? 'white' : 'blue',
-    backgroundColor: state.isSelected ? '#007BFF' : 'white',
-    cursor: 'pointer',
+    color: 'black',
+    backgroundColor: state.isSelected ? 'lightblue' : 'white',
   }),
   menu: provided => ({
     ...provided,

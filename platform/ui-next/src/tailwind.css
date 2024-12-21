@@ -8,31 +8,31 @@
 
 @layer base {
   :root {
-    --highlight: 191 74% 63%;
-    --background: 236 62% 5%;
-    --foreground: 0 0% 98%;
-    --card: 236 62% 5%;
-    --card-foreground: 0 0% 98%;
-    --popover: 219 90% 15%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 214 98% 60%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 214 66% 48%;
-    --secondary-foreground: 200 50% 84%;
-    --muted: 234 64% 10%;
-    --muted-foreground: 200 46% 65%;
-    --accent: 217 79% 24%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 236 45% 21%;
-    --ring: 214 98% 60%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --highlight: 120 74% 63%; /* Green highlight */
+    --background: 120 15% 10%; /* Dark green background */
+    --foreground: 120 40% 92%; /* Light green foreground */
+    --card: 120 15% 10%; /* Dark card background */
+    --card-foreground: 120 40% 92%; /* Light card foreground */
+    --popover: 120 25% 15%; /* Darker green popover */
+    --popover-foreground: 120 50% 85%; /* Light green popover text */
+    --primary: 120 60% 55%; /* Vibrant green primary */
+    --primary-foreground: 0 0% 98%; /* Light text on primary */
+    --secondary: 120 35% 45%; /* Muted green secondary */
+    --secondary-foreground: 120 50% 85%; /* Light secondary text */
+    --muted: 120 15% 25%; /* Muted dark green */
+    --muted-foreground: 120 50% 70%; /* Muted text */
+    --accent: 160 60% 50%; /* Another shade of green for accent */
+    --accent-foreground: 0 0% 98%; /* Light accent text */
+    --destructive: 0 62.8% 30.6%; /* Red for destructive actions */
+    --destructive-foreground: 0 0% 98%; /* Light text on destructive */
+    --border: 120 20% 35%; /* Greenish border */
+    --input: 120 30% 25%; /* Dark green input */
+    --ring: 120 60% 55%; /* Green ring */
+    --chart-1: 120 60% 50%; /* Green chart color 1 */
+    --chart-2: 130 50% 45%; /* Green chart color 2 */
+    --chart-3: 110 60% 55%; /* Green chart color 3 */
+    --chart-4: 150 40% 50%; /* Another green variant */
+    --chart-5: 180 50% 55%; /* Greenish-blue chart color */
     --radius: 0.5rem;
   }
 
