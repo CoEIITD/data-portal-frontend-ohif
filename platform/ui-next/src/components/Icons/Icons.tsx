@@ -1508,7 +1508,7 @@ export const Icons = {
           <path
             d="M11,0 C17.0751322,0 22,4.92486775 22,11 C22,17.0751322 17.0751322,22 11,22 C4.92486775,22 0,17.0751322 0,11 C0,4.92486775 4.92486775,0 11,0 Z M11,2 C6.02943725,2 2,6.02943725 2,11 C2,15.9705627 6.02943725,20 11,20 C15.9705627,20 20,15.9705627 20,11 C20,6.02943725 15.9705627,2 11,2 Z"
             id="Oval"
-            fill="#348CFD"
+            fill="#34FD8C"
             opacity="0.25"
           ></path>
           <path
@@ -1708,28 +1708,28 @@ export const Icons = {
         <path
           d="M18.0567826,8.96286957 C19.1471229,9.75269568 20.1356859,10.674229 21,11.7065217 C21,11.7065217 17.1949565,16.5108696 12.5,16.5108696 C11.7479876,16.5066962 11.0007435,16.3911225 10.2826087,16.167913"
           id="Path"
-          stroke="#348CFD"
+          stroke="#34FD8C"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
         <path
           d="M6.93286957,14.4413043 C5.84666081,13.6535964 4.86162018,12.7350857 4,11.7065217 C4,11.7065217 7.80504348,6.90217391 12.5,6.90217391 C13.1235541,6.90480509 13.7443251,6.98550531 14.3478261,7.1423913"
           id="Path"
-          stroke="#348CFD"
+          stroke="#34FD8C"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
         <path
           d="M9.54347826,11.7065217 C9.54347826,10.0736799 10.8671581,8.75 12.5,8.75"
           id="Path"
-          stroke="#348CFD"
+          stroke="#34FD8C"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
         <path
           d="M15.4565217,11.7065217 C15.4565217,13.3393636 14.1328419,14.6630435 12.5,14.6630435"
           id="Path"
-          stroke="#348CFD"
+          stroke="#34FD8C"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
@@ -1739,7 +1739,7 @@ export const Icons = {
           x2="5.29347826"
           y2="18.9130435"
           id="Path"
-          stroke="#348CFD"
+          stroke="#34FD8C"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></line>

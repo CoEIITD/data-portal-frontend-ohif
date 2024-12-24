@@ -24,7 +24,7 @@ export function VolumeRenderingQuality({
 
   const calculateBackground = value => {
     const percentage = ((value - 0) / (1 - 0)) * 100;
-    return `linear-gradient(to right, #5acce6 0%, #5acce6 ${percentage}%, #3a3f99 ${percentage}%, #3a3f99 100%)`;
+    return `linear-gradient(to right, #5acce6 0%, #5acce6 ${percentage}%, #2b6642 ${percentage}%, #2b6642 100%)`;
   };
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export function VolumeRenderingQuality({
   }, [cornerstoneViewportService, viewportId]);
   return (
     <>
-      <div className="all-in-one-menu-item flex  w-full flex-row !items-center justify-between gap-[10px]">
+      <div className="all-in-one-menu-item flex w-full flex-row !items-center justify-between gap-[10px]">
         <label
           className="block text-white"
           htmlFor="volume"
