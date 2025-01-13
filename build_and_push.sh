@@ -4,7 +4,7 @@
 set -e
 
 # Define variables
-IMAGE_TAG="swasth-frontend"
+IMAGE_TAG="swasth-frontend-ohif"
 DOCKERFILE="Dockerfile_Custom"
 TIMESTAMP=$(date +"%Y-%m-%d-%H-%M-%S")
 TAR_FILE1="${IMAGE_TAG}---${TIMESTAMP}.tar"

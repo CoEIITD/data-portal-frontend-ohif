@@ -7,6 +7,9 @@ COPY . .
 
 RUN yarn config set workspaces-experimental true
 
+RUN yarn config set proxy http://proxy21.iitd.ac.in:3128
+RUN yarn config set https-proxy http://proxy21.iitd.ac.in:3128
+
 RUN yarn install
 
 RUN yarn run build
