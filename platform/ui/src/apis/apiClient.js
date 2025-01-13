@@ -128,6 +128,32 @@ class APIClient {
       true
     );
   }
+
+  async handleModel(model, series = 'all', frames = 'all', studyUid, setToastMessage) {
+    //console.log('Starting mammo model processing for study:', studyUid);
+    console.log(model);
+    console.log(series);
+    console.log(frames);
+    const response = await this.makeRequest(
+      'POST',
+      apiEndpoints.model(studyUid),
+      {
+        model: model,
+        series: series,
+        frames: frames,
+      },
+      {},
+      true
+    );
+    if (response.result && response.result.id) {
+      ////console.log('Mammo model processing started:', response);
+      setToastMessage('Models are running...');
+
+      this.pollTaskStatus(response.result.id, setToastMessage); // Use response.result.id
+    } else {
+      alert('Failed to retrieve task ID from the response.');
+    }
+  }
   //models api
   async handleMammoModel(studyUid, setToastMessage) {
     //console.log('Starting mammo model processing for study:', studyUid);
@@ -217,13 +243,22 @@ class APIClient {
   }
 
   // return response;
-
   async pollTaskStatus(taskId, setToastMessage) {
-    ////console.log('task id is =' + taskId);
     const url = apiEndpoints.taskStatus(taskId);
     let polling = true;
+    // let lastStatus = null; // Store the last known status
+    // let statusUnchangedDuration = 0; // Track how long the status has remained unchanged
+    const pollingInterval = 1000; // Poll every second
+    // const timeoutThreshold = 10000; // 10 seconds timeout
 
     const poll = async () => {
+      // if (statusUnchangedDuration >= timeoutThreshold) {
+      //   polling = false;
+      //   setToastMessage('');
+      //   console.error('Polling stopped due to unchanged task status.');
+      //   return;
+      // }
+
       try {
         const response = await this.makeRequest('GET', url, undefined, {}, true);
 
@@ -233,10 +268,17 @@ class APIClient {
           // Task is complete, handle the completion
           this.handleTaskCompletion();
         } else {
+          // if (response.status === lastStatus) {
+          //   // Status is unchanged, increment duration
+          //   statusUnchangedDuration += pollingInterval;
+          // } else {
+          //   // Status has changed, reset duration
+          //   lastStatus = response.status;
+          //   statusUnchangedDuration = 0;
+          // }
+
           setToastMessage('Task still processing...');
-          ////console.log('Task still processing...');
-          // Continue polling
-          setTimeout(poll, 10000); // Poll every 10 seconds
+          setTimeout(poll, pollingInterval); // Continue polling
         }
       } catch (error) {
         console.error('Error polling task status:', error);

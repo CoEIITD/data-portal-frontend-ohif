@@ -6,6 +6,7 @@ import LegacyButton from '../LegacyButton';
 import LegacyButtonGroup from '../LegacyButtonGroup';
 import Typography from '../Typography';
 import Select from '../Select';
+// import Select from 'react-select';
 
 const StudyListPagination = ({ onChangePage, currentPage, perPage, onChangePerPage }) => {
   const { t } = useTranslation('StudyList');
@@ -43,6 +44,7 @@ const StudyListPagination = ({ onChangePage, currentPage, perPage, onChangePerPa
               hideSelectedOptions={true}
               onChange={onSelectedRange}
             />
+
             <Typography className="text-base opacity-60">{t('Results per page')}</Typography>
           </div>
           <div className="">

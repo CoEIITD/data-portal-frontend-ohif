@@ -119,11 +119,19 @@ const InputGroup = ({
   return (
     <div className="container relative m-auto flex flex-col">
       <div className="flex w-full flex-row">
-        {inputMeta.map(inputMeta => {
+        <div className="pl-40"></div>
+        {inputMeta.map((inputMeta, index) => {
           return (
             <div
               key={inputMeta.name}
-              className={classnames('pl-4 first:pl-12', getGridWidthClass(inputMeta.gridCol))}
+              className={classnames(
+                'mr-4 pl-4',
+                {
+                  'first:pl-16': index === 0, // Add extra space before first object to leace space for MRN and patient name
+                  'ml-16': index === 1, // Add extra margin-left only for the second object because description was being overlayed by study date filter
+                },
+                getGridWidthClass(inputMeta.gridCol)
+              )}
             >
               {renderFieldInputComponent(inputMeta)}
             </div>

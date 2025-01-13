@@ -149,7 +149,7 @@ const DicomTagBrowser = ({ displaySets, displaySetInstanceUID }) => {
                 step={1}
                 inputClassName="w-full"
                 labelPosition="left"
-                trackColor={'#3a3f99'}
+                trackColor={'#2b6642'}
               />
             </div>
           )}

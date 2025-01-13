@@ -247,17 +247,7 @@ function WorkList({
   const tableDataSource = sortedStudies.map((study, key) => {
     const rowKey = key + 1;
     const isExpanded = expandedRows.some(k => k === rowKey);
-    const {
-      studyInstanceUid,
-      accession,
-      modalities,
-      instances,
-      description,
-      mrn,
-      patientName,
-      date,
-      time,
-    } = study;
+    const { studyInstanceUid, accession, modalities, instances, description, date, time } = study;
     const studyDate =
       date &&
       moment(date, ['YYYYMMDD', 'YYYY.MM.DD'], true).isValid() &&
@@ -275,11 +265,7 @@ function WorkList({
       row: [
         {
           key: 'patientName',
-          content: patientName ? (
-            <TooltipClipboard>Study {rowKey}</TooltipClipboard>
-          ) : (
-            <span className="text-gray-700">(Empty)</span>
-          ),
+          content: <TooltipClipboard>Study {rowKey}</TooltipClipboard>,
           gridCol: 4,
         },
         {
@@ -534,20 +520,27 @@ function WorkList({
       <Onboarding />
       <InvestigationalUseDialog dialogConfiguration={appConfig?.investigationalUseDialog} />
       <div className="ohif-scrollbar ohif-scrollbar-stable-gutter flex grow flex-col overflow-y-auto sm:px-5">
-        <StudyListFilter
-          numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
-          filtersMeta={filtersMeta}
-          filterValues={{ ...filterValues, ...defaultSortValues }}
-          onChange={setFilterValues}
-          clearFilters={() => setFilterValues(defaultFilterValues)}
-          isFiltering={isFiltering(filterValues, defaultFilterValues)}
-          onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
-          getDataSourceConfigurationComponent={
-            dataSourceConfigurationComponent ? () => dataSourceConfigurationComponent() : undefined
-          }
-        />
+        <div className="mx-auto w-full max-w-6xl">
+          {' '}
+          <StudyListFilter
+            numOfStudies={pageNumber * resultsPerPage > 100 ? 101 : numOfStudies}
+            filtersMeta={filtersMeta}
+            filterValues={{ ...filterValues, ...defaultSortValues }}
+            onChange={setFilterValues}
+            clearFilters={() => setFilterValues(defaultFilterValues)}
+            isFiltering={isFiltering(filterValues, defaultFilterValues)}
+            onUploadClick={uploadProps ? () => show(uploadProps) : undefined}
+            getDataSourceConfigurationComponent={
+              dataSourceConfigurationComponent
+                ? () => dataSourceConfigurationComponent()
+                : undefined
+            }
+          />
+        </div>
+
         {hasStudies ? (
-          <div className="flex grow flex-col">
+          <div className="mx-auto flex w-full max-w-6xl grow flex-col">
+            {' '}
             <StudyListTable
               tableDataSource={tableDataSource.slice(offset, offsetAndTake)}
               numOfStudies={numOfStudies}
@@ -588,8 +581,6 @@ WorkList.propTypes = {
 };
 
 const defaultFilterValues = {
-  patientName: '',
-  mrn: '',
   studyDate: {
     startDate: null,
     endDate: null,
@@ -623,8 +614,6 @@ function _getQueryFilterValues(params) {
   params = newParams;
 
   const queryFilterValues = {
-    patientName: params.get('patientname'),
-    mrn: params.get('mrn'),
     studyDate: {
       startDate: params.get('startdate') || null,
       endDate: params.get('enddate') || null,

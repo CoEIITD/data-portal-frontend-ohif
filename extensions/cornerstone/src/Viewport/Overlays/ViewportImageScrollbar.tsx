@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Enums, VolumeViewport3D } from '@cornerstonejs/core';
 import { utilities as csToolsUtils } from '@cornerstonejs/tools';
 import { ImageScrollbar } from '@ohif/ui';
-
+import eventEmitter from '../../utils/eventEmitter';
 function CornerstoneImageScrollbar({
   viewportData,
   viewportId,
@@ -64,8 +64,11 @@ function CornerstoneImageScrollbar({
 
     const updateIndex = event => {
       const viewport = cornerstoneViewportService.getCornerstoneViewport(viewportId);
-      if(!viewport || viewport instanceof VolumeViewport3D) return
+      if (!viewport || viewport instanceof VolumeViewport3D) {
+        return;
+      }
       const { imageIndex, newImageIdIndex = imageIndex } = event.detail;
+      eventEmitter.emitFrameIndex(String(newImageIdIndex));
       const numberOfSlices = viewport.getNumberOfSlices();
       // find the index of imageId in the imageIds
       setImageSliceData({
