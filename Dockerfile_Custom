@@ -12,6 +12,8 @@ RUN yarn config set https-proxy http://proxy21.iitd.ac.in:3128
 
 RUN yarn install
 
+ENV PUBLIC_URL=/swasth/
+
 RUN yarn run build
 
 # Stage 2: Production
