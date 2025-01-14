@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { StudySummary, MeasurementTable, useViewportGrid, ActionButtons } from '@ohif/ui';
+import { StudySummary, MeasurementTable, useViewportGrid } from '@ohif/ui';
 import { DicomMetadataStore, utils } from '@ohif/core';
 import { useDebounce } from '@hooks';
-import { useAppConfig } from '@state';
 import { useTrackedMeasurements } from '../../getContextModule';
-import { Button, ButtonEnums } from '@ohif/ui';
 import debounce from 'lodash.debounce';
 import { useTranslation } from 'react-i18next';
 import { Separator } from '@ohif/ui-next';
 import apiClient from '../../../../../platform/ui/src/apis/apiClient';
-const { downloadCSVReport } = utils;
+import { OptionEnum } from '../../../../cornerstone/src/utils/OptionEnum';
+import RunModel from '../../runModelButton';
 const { formatDate } = utils;
 
 const DISPLAY_STUDY_SUMMARY_INITIAL_VALUE = {
@@ -40,20 +39,9 @@ function XRayPanel({
   );
   const [displayMeasurements, setDisplayMeasurements] = useState([]);
   const measurementsPanelRef = useRef(null);
-  const [appConfig] = useAppConfig();
   const searchParams = new URLSearchParams(window.location.search);
   const studyInstanceUid = searchParams.get('StudyInstanceUIDs');
-  const [toastMessage, setToastMessage] = useState('');
 
-  const handleRunModelsClick = async () => {
-    const response = await apiClient.handleXRayModel(studyInstanceUid, setToastMessage);
-    console.log('Xray model processing started:', response);
-    // alert(response.result.message);
-    // } catch (error) {
-    //   console.error('Failed to start mammo model processing:', error);
-    //   alert('Failed to start mammo model processing.');
-    // }
-  };
   useEffect(() => {
     const measurements = measurementService.getMeasurements();
     const filteredMeasurements = measurements.filter(
@@ -133,15 +121,6 @@ function XRayPanel({
     };
   }, [measurementService, sendTrackedMeasurementsEvent]);
 
-  async function exportReport() {
-    const measurements = measurementService.getMeasurements();
-    const trackedMeasurements = measurements.filter(
-      m => trackedStudy === m.referenceStudyUID && trackedSeries.includes(m.referenceSeriesUID)
-    );
-
-    downloadCSVReport(trackedMeasurements, measurementService);
-  }
-
   const jumpToImage = ({ uid, isActive }) => {
     measurementService.jumpToMeasurement(viewportGrid.activeViewportId, uid);
 
@@ -189,11 +168,6 @@ function XRayPanel({
 
   const nonAcquisitionMeasurements = displayMeasurements.filter(dm => dm.referencedImageId == null);
 
-  const disabled =
-    additionalFindings.length === 0 &&
-    displayMeasurementsWithoutFindings.length === 0 &&
-    nonAcquisitionMeasurements.length === 0;
-
   const [modelResult, setModelResult] = useState(null);
   const isObjectEmpty = obj => {
     return Object.keys(obj).length === 0;
@@ -235,7 +209,7 @@ function XRayPanel({
   }, []);
 
   return (
-    <>
+    <div>
       {renderHeader && (
         <>
           <div className="bg-primary-dark flex select-none rounded-t pt-1.5 pb-[2px]">
@@ -292,32 +266,31 @@ function XRayPanel({
           />
         )}
       </div>
-      <h3 className="mb-4 text-xl font-semibold text-white">
-        Predicted Diseases v/s Condifdence Score
-      </h3>
-      <div className="mb-6 flex flex-col space-y-4">
-        {modelResult ? (
-          <ul className="list-disc pl-5">
-            {Object.entries(modelResult).map(([key, value]) => (
-              <li
-                key={key}
-                className="text-white"
-              >
-                <strong>{key}:</strong> {value}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-red-400">Model not run yet</p>
-        )}
+      <div className="mx-6 my-4">
+        <div>
+          <RunModel type={OptionEnum.XRay} />
+        </div>
+        <h3 className="mb-4 text-xl font-semibold text-white">
+          Predicted Diseases v/s Condifdence Score
+        </h3>
+        <div className="mb-6 flex flex-col space-y-4">
+          {modelResult ? (
+            <ul className="list-disc pl-5">
+              {Object.entries(modelResult).map(([key, value]) => (
+                <li
+                  key={key}
+                  className="text-white"
+                >
+                  <strong>{key}:</strong> {value}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-red-400">Model not run yet</p>
+          )}
+        </div>
       </div>
-      <Button
-        className="m-2 ml-0"
-        onClick={handleRunModelsClick}
-      >
-        Run Models
-      </Button>
-    </>
+    </div>
   );
 }
 
@@ -332,7 +305,6 @@ XRayPanel.propTypes = {
   }).isRequired,
 };
 
-// TODO: This could be a measurementService mapper
 function _mapMeasurementToDisplay(measurement, types, displaySetService) {
   const { referenceStudyUID, referenceSeriesUID, SOPInstanceUID } = measurement;
 

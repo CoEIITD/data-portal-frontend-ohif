@@ -216,7 +216,7 @@ const InputDoubleRange: React.FC<InputDoubleRangeProps> = ({
         <div
           className="h-[3px] w-full rounded-lg"
           style={{
-            background: `linear-gradient(to right, #3a3f99 0%, #3a3f99 ${rangeValuePercentageStart}%, #5acce6 ${rangeValuePercentageStart}%, #5acce6 ${rangeValuePercentageEnd}%, #3a3f99 ${rangeValuePercentageEnd}%, #3a3f99 100%)`,
+            background: `linear-gradient(to right, #2b6642 0%, #2b6642 ${rangeValuePercentageStart}%, #5acce6 ${rangeValuePercentageStart}%, #5acce6 ${rangeValuePercentageEnd}%, #2b6642 ${rangeValuePercentageEnd}%, #2b6642 100%)`,
           }}
         ></div>
         <div
@@ -226,7 +226,7 @@ const InputDoubleRange: React.FC<InputDoubleRangeProps> = ({
           }}
         ></div>
         <div
-          className="input-range-thumb-design absolute h-3  w-3 cursor-pointer rounded-full"
+          className="input-range-thumb-design absolute h-3 w-3 cursor-pointer rounded-full"
           style={{ left: `calc(${percentageEnd}% - 3px)` }}
         ></div>
       </div>

@@ -5,6 +5,8 @@ import { Button, ButtonEnums } from '@ohif/ui';
 import axios from 'axios';
 import apiClient from '../../../../../platform/ui/src/apis/apiClient';
 import { Classification } from '../Classification';
+import { OptionEnum } from '../../../../cornerstone/src/utils/OptionEnum';
+import RunModel from '../../runModelButton';
 function ActionButtons({
   onExportClick = () => alert('Export'),
   onCreateReportClick = () => alert('Create Report'),
@@ -207,15 +209,6 @@ function ActionButtons({
     }
   };
 
-  const handleRunModelsClick = async () => {
-    const response = await apiClient.handleGBCModel(studyInstanceUid, setToastMessage);
-    console.log('GBC model processing started:', response);
-    // alert(response.result.message);
-    // } catch (error) {
-    //   console.error('Failed to start mammo model processing:', error);
-    //   alert('Failed to start mammo model processing.');
-    // }
-  };
   const [modelResult, setModelResult] = useState(null);
   const removeModel = obj => {
     const { 'LQ Adapter': _, 'Focus MAE': __, ...newObj } = obj; // Destructure to remove both properties
@@ -252,7 +245,7 @@ function ActionButtons({
       }
     } catch (error) {
       console.error('Failed to get Classification results', error);
-      alert('Failed to get Classification results');
+      // alert('Failed to get Classification results');
       console.log('Failed to get Classification results');
       setModelResult(null);
     }
@@ -425,7 +418,7 @@ function ActionButtons({
               Mark Label
             </Button>
           </div>
-
+          <h2 className="mb-4 mt-3 text-xl font-semibold text-white">Ground Truth</h2>
           {/*Demographic Details */}
           <div className="mb-4">
             <h2
@@ -774,9 +767,13 @@ function ActionButtons({
           </Button> */}
         </div>
       </form>
+      <div>
+        <RunModel type={OptionEnum.GBC} />
+      </div>
+
       {/* Model Result Display */}
-      <h2 className="mb-4 text-xl font-semibold text-white">Classification Results</h2>
-      <div className="mb-6 flex flex-col space-y-4">
+      <h2 className="mb-4 mt-3 text-xl font-semibold text-white">Classification Results</h2>
+      <div className="mb-6 mt-3 flex flex-col space-y-4">
         {modelResult ? (
           <div className="overflow-hidden text-sm">
             {Object.entries(modelResult).map(([key, value]) => (
@@ -800,13 +797,6 @@ function ActionButtons({
           <p className="text-red-400">Model not run yet</p>
         )}
       </div>
-
-      <Button
-        className="m-2 ml-0"
-        onClick={handleRunModelsClick}
-      >
-        Run Models
-      </Button>
     </div>
   );
 }

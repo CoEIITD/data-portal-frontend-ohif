@@ -181,7 +181,7 @@ function GbcPanel({ servicesManager, extensionManager }) {
   return (
     <>
       <div
-        className="invisible-scrollbar overflow-y-auto overflow-x-hidden"
+        className="invisible-scrollbar overflow-x-auto overflow-y-auto"
         ref={measurementsPanelRef}
         data-cy={'trackedMeasurements-panel'}
       >

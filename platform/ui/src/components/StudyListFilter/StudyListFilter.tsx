@@ -165,6 +165,7 @@ const StudyListFilter = ({
                 >
                   {t('StudyList')}
                 </Typography>
+
                 {getDataSourceConfigurationComponent && getDataSourceConfigurationComponent()}
                 {onUploadClick && (
                   <div
@@ -195,7 +196,7 @@ const StudyListFilter = ({
                 <div className="relative min-w-[120px] text-left">
                   <button
                     type="button"
-                    className="hover:bg-white-50 mt-[10px] mr-3 flex w-full min-w-[110px] items-center justify-center whitespace-nowrap rounded-md bg-[#243fa0] text-sm font-semibold text-white shadow-sm"
+                    className="bg-primary-main mt-[10px] mr-3 flex w-full min-w-[110px] items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold text-white shadow-sm hover:bg-green-50"
                     style={{ marginRight: '10px' }}
                     onClick={() => setLabelDropdownOpen(!labelDropdownOpen)}
                   >
@@ -257,7 +258,7 @@ const StudyListFilter = ({
                 <div className="relative min-w-[120px] text-left">
                   <button
                     type="button"
-                    className="hover:bg-white-50 mt-[10px] flex w-full min-w-[120px] items-center justify-center whitespace-nowrap rounded-md bg-[#243fa0] text-sm font-semibold text-white shadow-sm"
+                    className="bg-primary-main mt-[10px] mr-3 flex w-full min-w-[110px] items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold text-white shadow-sm hover:bg-green-50"
                     onClick={toggleDropdown}
                   >
                     {selectedStudyType}
@@ -284,14 +285,14 @@ const StudyListFilter = ({
                         role="none"
                       >
                         <button
-                          className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                          className="bg-primary-main mt-[10px] mr-3 flex w-full min-w-[110px] items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold text-white shadow-sm hover:bg-green-50"
                           role="menuitem"
                           onClick={() => handleSelect('My Studies')}
                         >
                           My Studies
                         </button>
                         <button
-                          className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+                          className="bg-primary-main mt-[10px] mr-3 flex w-full min-w-[110px] items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold text-white shadow-sm hover:bg-green-50"
                           role="menuitem"
                           onClick={() => handleSelect('Shared by Me')}
                         >
@@ -321,7 +322,7 @@ const StudyListFilter = ({
           </div>
         </div>
       </div>
-      <div className="sticky -top-1 z-10 mx-auto border-b-4 border-black">
+      <div className="sticky -top-1 z-10 border-b-4 border-black">
         <div className="bg-primary-dark pt-3 pb-3">
           <InputGroup
             inputMeta={filtersMeta}
@@ -347,7 +348,7 @@ const StudyListFilter = ({
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
           style={{ zIndex: 1051 }}
         >
-          <div className="mx-4 w-full max-w-sm rounded bg-[#243fa0] p-4 shadow-lg">
+          <div className="bg-primary-main mx-4 w-full max-w-sm rounded p-4 shadow-lg">
             <p className="mb-4 text-lg text-white">Are you sure you want to delete this label?</p>
             <div className="flex justify-between">
               <button
@@ -369,7 +370,7 @@ const StudyListFilter = ({
 
       {isLabelModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="mx-4 w-full max-w-sm rounded bg-[#243fa0] p-4 shadow-lg">
+          <div className="bg-primary-main mx-4 w-full max-w-sm rounded p-4 shadow-lg">
             <h2 className="mb-4 text-lg">Create New Label</h2>
             <input
               type="text"
@@ -386,7 +387,7 @@ const StudyListFilter = ({
                 Close
               </button>
               <button
-                className="rounded bg-[#243fa0] px-3 py-2 text-white"
+                className="bg-primary-main rounded px-3 py-2 text-white"
                 onClick={handleAddLabel}
               >
                 Add

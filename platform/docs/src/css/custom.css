@@ -8,31 +8,31 @@
 
 @layer base {
   :root {
-    --highlight: 191 74% 63%;
-    --background: 236 62% 5%;
+    --highlight: 125 70% 55%; /* Adjusted for green highlight */
+    --background: 136 30% 10%; /* Dark green background */
     --foreground: 0 0% 98%;
-    --card: 236 62% 5%;
+    --card: 136 30% 15%; /* Dark green card */
     --card-foreground: 0 0% 98%;
-    --popover: 219 90% 15%;
+    --popover: 120 60% 20%; /* Lighter green popover */
     --popover-foreground: 0 0% 98%;
-    --primary: 214 98% 60%;
+    --primary: 120 60% 40%; /* Soft green primary */
     --primary-foreground: 0 0% 98%;
-    --secondary: 214 66% 48%;
-    --secondary-foreground: 200 50% 84%;
-    --muted: 234 64% 10%;
-    --muted-foreground: 200 46% 65%;
-    --accent: 217 79% 24%;
+    --secondary: 125 40% 40%; /* Deeper green secondary */
+    --secondary-foreground: 160 60% 85%; /* Light green for secondary text */
+    --muted: 120 25% 30%; /* Muted dark green */
+    --muted-foreground: 160 40% 60%;
+    --accent: 145 60% 35%; /* Fresh green accent */
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 30.6%; /* Keep the red for destructive actions */
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
-    --input: 236 45% 21%;
-    --ring: 214 98% 60%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --input: 136 45% 21%;
+    --ring: 120 60% 40%;
+    --chart-1: 125 70% 50%; /* Lighter green for charts */
+    --chart-2: 150 50% 45%; /* Softer green */
+    --chart-3: 90 60% 55%; /* Light pastel green */
+    --chart-4: 170 50% 50%; /* Soft teal green */
+    --chart-5: 160 70% 45%; /* Fresh green for charts */
     --radius: 0.5rem;
   }
 
@@ -43,7 +43,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 214 98% 60%;
+    --primary: 120 60% 40%;
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -285,7 +285,7 @@ html[data-theme='dark'] .header-github-link:before {
 
 html[data-theme='dark'] {
   --ifm-menu-link-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 24 24"><path fill="rgba(0,0,0,0.4)" d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg>');
-  --ifm-color-primary: #5acce6;
+  --ifm-color-primary: #61e65a;
   --ifm-color-primary-dark: #3ec3e2;
   --ifm-color-primary-darker: #30bfe0;
   --ifm-color-primary-darkest: #1da4c3;
@@ -307,7 +307,7 @@ html[data-theme='dark'] {
   --ifm-table-stripe-background: #060920;
   --ifm-color-warning: #f1c55a;
   --ifm-alert-color: #000000;
-  --ohif-color-border: #3a3f99;
+  --ohif-color-border: #2b6642;
 }
 
 .medium-zoom-overlay {
@@ -335,7 +335,6 @@ html[data-theme='dark'] {
 */
 
 /* Typography updates */
-
 html {
   font-size: 1em;
 }
@@ -359,7 +358,6 @@ blockquote {
 }
 
 /* Temporary Type Size Changes */
-
 article header h1 {
   font-size: 2.6rem !important;
 }
@@ -373,13 +371,11 @@ article header h3 {
 }
 
 /* Remove navigation shadow */
-
 .navbar {
   box-shadow: none;
 }
 
 /* Navigation color and type updates */
-
 .footer {
   background-color: #000000;
   color: #ffffff;
@@ -430,7 +426,6 @@ article header h3 {
 }
 
 /* Alerts */
-
 .alert {
   font-size: 0.9rem;
   padding: 10px;

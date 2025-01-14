@@ -1,7 +1,8 @@
 .customSelect__wrapper .customSelect__control {
-  @apply border-secondary-light w-full rounded border bg-black text-sm leading-tight text-white shadow transition duration-300;
+  @apply w-full rounded border border-[#5accb5] text-sm leading-tight text-white shadow transition duration-300;
   min-height: 28px;
 }
+
 .customSelect__wrapper .customSelect__control:hover {
   @apply border-gray-500;
 }
@@ -42,7 +43,7 @@
   padding: 4px;
 }
 
- .customSelect__option {
+.customSelect__option {
   color: #d6d6d6 !important;
   font-size: 14px !important;
   display: flex !important;
@@ -55,7 +56,7 @@
 }
 
 .customSelect__wrapper .customSelect__single-value {
-  @apply text-aqua-pale pl-1;
+  @apply pl-1 text-[#a8e6a1];
   max-width: calc(100% - 20px);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -85,25 +86,26 @@
   width: 6px;
   border-radius: 10px;
 }
+
 .customSelect__menu-portal .customSelect__placeholder {
-  @apply text-aqua-pale pl-1.5;
+  @apply pl-1.5 text-[#a8e6a1];
 }
 
 .customSelect__menu-portal .customSelect__menu-list::-webkit-scrollbar-thumb {
-  background-color: #0944b3;
+  background-color: #388e3c;
   border-radius: 10px;
 }
 
 .customSelect__option--is-focused {
-  background-color: #0944b391 !important;
+  background-color: #388e3c !important;
 }
 
 .customSelect__menu-portal .customSelect__option:hover {
-  background-color: #0944b391;
+  background-color: #388e3c;
 }
 
 .customSelect__menu-portal .customSelect__menu {
-  border: 2px solid #0944b3;
+  border: 2px solid #388e3c;
   border-radius: 6px;
   background-color: #151515 !important;
 }

@@ -25,57 +25,62 @@ module.exports = {
       inherit: 'inherit',
 
       aqua: {
-        pale: '#7bb2ce',
+        pale: '#7bb2ce', // No blue shade, kept original.
       },
 
       primary: {
-        light: '#5acce6',
-        main: '#0944b3',
-        dark: '#090c29',
-        active: '#348cfd',
+        light: '#5accb5', // Changed from light blue to light greenish-teal.
+        main: '#097344', // Deep green replacing blue.
+        dark: '#062314', // Replacing dark blue with dark green.
+        active: '#34d99b', // Bright green replacing blue active.
       },
+
       inputfield: {
-        main: '#3a3f99',
-        disabled: '#2b166b',
-        focus: '#5acce6',
-        placeholder: '#39383f',
+        main: '#3a9966', // Replacing main blue with medium green.
+        disabled: '#1f583a', // Replacing disabled blue with a muted green.
+        focus: '#5accb5', // Replacing focus blue with light greenish-teal.
+        placeholder: '#393f38', // Adjusted to a gray-green.
       },
 
       secondary: {
-        light: '#3a3f99',
-        main: '#2b166b',
-        dark: '#041c4a',
-        active: '#1f1f27',
+        light: '#3a995e', // Replacing secondary light blue with light green.
+        main: '#2b6642', // Replacing main blue with dark green.
+        dark: '#042b14', // Replacing dark blue with very dark green.
+        active: '#1f271f', // Neutral dark shade, preserved similarity.
       },
 
       indigo: {
-        dark: '#0b1a42',
+        dark: '#0b4220', // Replacing dark indigo blue with dark green.
       },
 
       common: {
-        bright: '#e1e1e1',
-        light: '#a19fad',
-        main: '#fff',
-        dark: '#726f7e',
-        active: '#2c3074',
+        bright: '#e1ffe1', // Bright greenish tint replacing blue.
+        light: '#a1e1ad', // Pale green replacing light blue.
+        main: '#fff', // No change.
+        dark: '#6f7e72', // Neutral greenish-gray replacing dark blue-gray.
+        active: '#2c7444', // Bright active green replacing blue.
       },
+
       bkg: {
-        low: '#050615',
-        med: '#090C29',
-        full: '#041C4A',
+        low: '#051505', // Replacing low blue with low green.
+        med: '#09290c', // Medium green replacing medium blue.
+        full: '#043a14', // Full dark green replacing dark blue.
       },
+
       info: {
-        primary: '#FFFFFF',
-        secondary: '#7BB2CE',
+        primary: '#FFFFFF', // No change.
+        secondary: '#7BB2A1', // Replacing secondary blue with greenish-teal.
       },
+
       actions: {
-        primary: '#348CFD',
-        highlight: '#5ACCE6',
-        hover: 'rgba(52, 140, 253, 0.2)',
+        primary: '#34D98C', // Replacing action blue with bright green.
+        highlight: '#5ACCB5', // Highlight greenish-teal replacing blue.
+        hover: 'rgba(52, 217, 140, 0.2)', // Replacing hover blue tone with green.
       },
+
       customgreen: {
-        100: '#05D97C',
-        200: '#0FD97C',
+        100: '#05D97C', // Original green preserved.
+        200: '#0FD97C', // Original green preserved.
       },
 
       customblue: {

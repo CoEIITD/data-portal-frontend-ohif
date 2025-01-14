@@ -1,8 +1,8 @@
 const colors = {
-  LIGHT: '#5acce6',
-  MAIN: '#0944b3',
-  DARK: '#090c29',
-  ACTIVE: '#348cfd',
+  LIGHT: '#a8e6a1', // Light green
+  MAIN: '#388e3c', // Standard green
+  DARK: '#1b5e20', // Dark green
+  ACTIVE: '#66bb6a', // Lively green for active state
 };
 
 export default colors;
