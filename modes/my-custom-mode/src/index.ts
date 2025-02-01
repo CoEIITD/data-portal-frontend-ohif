@@ -39,8 +39,16 @@ const extensionDependencies = {
   '@ohif/extension-cornerstone-dicom-sr': '^3.0.0',
   '@ohif/extension-dicom-pdf': '^3.0.1',
   '@ohif/extension-dicom-video': '^3.0.1',
+  '@ohif/extension-measurement-tracking': '^3.0.0',
 };
 
+const measurementTracking = {
+  trackedMeasurements: '@ohif/extension-measurement-tracking.panelModule.trackedMeasurements',
+  seriesList: '@ohif/extension-measurement-tracking.panelModule.seriesList',
+  gbcPanel: '@ohif/extension-measurement-tracking.panelModule.gbcPanel',
+  MammoPanel: '@ohif/extension-measurement-tracking.panelModule.MammoPanel',
+  XRayPanel: '@ohif/extension-measurement-tracking.panelModule.XRayPanel',
+};
 function modeFactory({ modeConfiguration }) {
   return {
     id,
@@ -141,8 +149,11 @@ function modeFactory({ modeConfiguration }) {
             props: {
               // TODO: Should be optional, or required to pass empty array for slots?
               leftPanels: [ohif.thumbnailList],
-              // rightPanels: getPanelsForModality(modality),
-              rightPanels: [ohif.measurements],
+              rightPanels: [
+                measurementTracking.gbcPanel,
+                measurementTracking.MammoPanel,
+                measurementTracking.XRayPanel,
+              ],
               viewports: [
                 {
                   namespace: cs3d.viewport,
