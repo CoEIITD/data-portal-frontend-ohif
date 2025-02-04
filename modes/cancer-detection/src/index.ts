@@ -52,8 +52,8 @@ const measurementTracking = {
 function modeFactory({ modeConfiguration }) {
   return {
     id,
-    routeName: 'my-custom-mode',
-    displayName: i18n.t('Modes:Custom Mode'),
+    routeName: 'cancer-detection',
+    displayName: i18n.t('Modes:Cancer Detection'),
     /**
      * Lifecycle hooks
      */

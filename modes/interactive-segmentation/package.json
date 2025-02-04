@@ -1,10 +1,10 @@
 {
-  "name": "@ohif/mode-iml-mode",
+  "name": "@ohif/mode-interactive-segmentation",
   "version": "3.9.0-beta.101",
   "description": "OHIF segmentation mode which enables labelmap segmentation read/edit/export",
   "author": "@ohif",
   "license": "MIT",
-  "main": "dist/umd/@ohif/mode-iml-mode/index.umd.js",
+  "main": "dist/umd/@ohif/mode-interactive-segmentation/index.umd.js",
   "files": [
     "dist/**",
     "public/**",

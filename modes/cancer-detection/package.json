@@ -1,11 +1,11 @@
 {
-  "name": "@ohif/mode-my-custom-mode",
+  "name": "@ohif/mode-cancer-detection",
   "version": "1.0.0",
   "description": "Custom Mode for OHIF Viewer",
   "author": "OHIF",
   "license": "MIT",
   "repository": "OHIF/Viewers",
-  "main": "dist/ohif-mode-my-custom-mode.umd.js",
+  "main": "dist/ohif-mode-cancer-detection.umd.js",
   "module": "src/index.ts",
   "engines": {
     "node": ">=10",
