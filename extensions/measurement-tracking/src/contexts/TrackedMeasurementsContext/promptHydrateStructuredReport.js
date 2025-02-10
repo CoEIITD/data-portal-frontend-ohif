@@ -14,6 +14,7 @@ function promptHydrateStructuredReport({ servicesManager, extensionManager, appC
   const { displaySetService } = servicesManager.services;
   const { viewportId, displaySetInstanceUID } = evt;
   const srDisplaySet = displaySetService.getDisplaySetByUID(displaySetInstanceUID);
+  console.log('💡 Running Structured Report Hydration...');
 
   return new Promise(function (resolve) {
     // Directly hydrate the structured report without any user prompt

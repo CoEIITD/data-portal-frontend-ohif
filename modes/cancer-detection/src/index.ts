@@ -150,9 +150,12 @@ function modeFactory({ modeConfiguration }) {
               // TODO: Should be optional, or required to pass empty array for slots?
               leftPanels: [ohif.thumbnailList],
               rightPanels: [
-                measurementTracking.gbcPanel,
                 measurementTracking.MammoPanel,
+                measurementTracking.gbcPanel,
                 measurementTracking.XRayPanel,
+                measurementTracking.trackedMeasurements,
+                measurementTracking.seriesList,
+                ohif.measurements,
               ],
               viewports: [
                 {
@@ -166,6 +169,13 @@ function modeFactory({ modeConfiguration }) {
                 {
                   namespace: dicompdf.viewport,
                   displaySetsToDisplay: [dicompdf.sopClassHandler],
+                },
+                {
+                  namespace: dicomsr.viewport, // Ensure SRs are mapped
+                  displaySetsToDisplay: [dicomsr.sopClassHandler],
+                  viewportOptions: {
+                    syncMeasurements: true,
+                  },
                 },
               ],
             },
