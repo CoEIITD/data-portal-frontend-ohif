@@ -42,86 +42,70 @@ function SegmentationDropDownRow({
 
   const [loading, setLoading] = useState(false);
   // const [loading2, setLoading2] = useState(false);
-
   const handleClick = async () => {
     setLoading(true);
 
-    console.log('servicesManager:', servicesManager);
-
-    if (!servicesManager || !servicesManager.services) {
-      console.error('servicesManager or servicesManager.services is undefined');
-      setLoading(false);
-      return;
-    }
-
-    const { segmentationService, viewportGridService } = servicesManager.services;
-    const { activeViewportId } = viewportGridService.getState();
-    const { viewport } = getEnabledElementByViewportId(activeViewportId) || {};
-    const imageId = viewport.getCurrentImageId();
-    const sliceID = viewport.getCurrentImageIdIndex();
-
-    const segmentationId = activeSegmentation.id;
-
-    // Continue with segmentation logic...
-    const labelmapVolume = segmentationService.getLabelmapVolume(segmentationId);
-    const { dimensions } = labelmapVolume;
-    const scalarData = labelmapVolume.getScalarData();
-    const width = dimensions[0];
-    const height = dimensions[1];
-    const startIndex = sliceID * width * height;
-    const slicedData = scalarData.slice(startIndex, startIndex + width * height);
-
-    console.log(`imageID: ${imageId}  sliceID: ${sliceID}`);
-    console.log(`Seg_ID: ${segmentationId}`);
-
     try {
-      const image = await imageLoader.loadAndCacheImage(imageId);
-      const pixelData = image.getPixelData(); // Uint16Array or Int16Array
+      const { segmentationService, viewportGridService } = servicesManager.services;
+      const { activeViewportId } = viewportGridService.getState();
+      const { viewport } = getEnabledElementByViewportId(activeViewportId) || {};
+      const imageId = viewport.getCurrentImageId();
+      const sliceID = viewport.getCurrentImageIdIndex();
+      const segmentationId = activeSegmentation.id;
 
-      // Convert pixelData to a regular array for transmission
-      const pixelDataArray = Array.from(pixelData);
-      const old_seg_data_array = Array.from(slicedData);
+      const labelmapVolume = segmentationService.getLabelmapVolume(segmentationId);
+      const { dimensions } = labelmapVolume;
+      const scalarData = labelmapVolume.getScalarData();
+      const width = dimensions[0];
+      const height = dimensions[1];
 
-      // Send pixelData and imageId in the POST request
-      const response = await fetch('http://localhost:8000/api/segment-image-interactive', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pixelData: pixelDataArray, old_seg_data: old_seg_data_array }),
+      console.log(`Current Slice ID: ${sliceID}`);
+      console.log(`Segmentation ID: ${segmentationId}`);
+
+      // Prepare slices for mock API (FORWARD)
+      const numberOfSlices = 5; // You can change this easily later to test 2, 5, etc.
+
+      const slicesPixelData = [];
+      for (let i = 0; i < numberOfSlices; i++) {
+        const currentSliceIndex = sliceID - i; // Moving FORWARD (visually in your case)
+
+        if (currentSliceIndex < 0) break; // Prevent negative slice indices
+
+        const startIndex = currentSliceIndex * width * height;
+        const slicePixelData = scalarData.slice(startIndex, startIndex + width * height);
+        slicesPixelData.push({
+          sliceIndex: currentSliceIndex,
+          pixelData: Array.from(slicePixelData),
+        });
+
+        // Log inside the loop
+      }
+      // Call mock API
+      const response = await mockApiCallForSegmentation(slicesPixelData);
+      const segmentation_data = response.segmentation_data;
+
+      if (!segmentation_data || !Array.isArray(segmentation_data)) {
+        console.error('Invalid segmentation_data format:', segmentation_data);
+        throw new Error('Invalid segmentation data');
+      }
+
+      // Update Segmentation Data (FORWARD)
+      segmentation_data.forEach(({ sliceIndex, maskData }) => {
+        const startIndex = sliceIndex * width * height;
+        for (let i = 0; i < maskData.length; i++) {
+          scalarData[startIndex + i] = maskData[i];
+        }
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok: ' + response.statusText);
-      }
-
-      const { segmentation_data } = await response.json();
-      console.log('Segmentation Data:', segmentation_data);
-
-      // Check if segmentation_data matches the expected size
-      if (segmentation_data.length !== width * height) {
-        console.error(
-          `Segmentation data size (${segmentation_data.length}) does not match labelmap dimensions (${width * height})`
-        );
-        return;
-      }
-
-      // Update the scalar data with the new segmentation data
-      for (let i = 0; i < segmentation_data.length; i++) {
-        scalarData[startIndex + i] = segmentation_data[i];
-      }
-
-      const updatedSegmentSlice = scalarData.slice(startIndex, startIndex + width * height);
-      console.log('Updated Segment Slice:', updatedSegmentSlice);
-
-      // Notify about the segmentation data modification
-      const eventDetail = { segmentationId: segmentationId };
+      // Notify OHIF that segmentation data was modified
+      const eventDetail = { segmentationId };
       const event = new CustomEvent(csToolsEnums.Events.SEGMENTATION_DATA_MODIFIED, {
         detail: eventDetail,
       });
       eventTarget.dispatchEvent(event);
 
       const segmentation = segmentationService.getSegmentation(segmentationId);
-
-      if (segmentation === undefined) {
+      if (!segmentation) {
         console.error('Segmentation not found!');
         return;
       }
@@ -130,9 +114,9 @@ function SegmentationDropDownRow({
         segmentation,
       });
     } catch (error) {
-      console.error('Error fetching segmentation data:', error);
+      console.error('Error during interactive segmentation:', error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -455,6 +439,18 @@ SegmentationDropDownRow.propTypes = {
   storeSegmentation: PropTypes.func,
   onSegmentationDelete: PropTypes.func,
   onSegmentationAdd: PropTypes.func,
+};
+
+const mockApiCallForSegmentation = async slicesPixelData => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const mockSegmentationData = slicesPixelData.map(slice => ({
+        sliceIndex: slice.sliceIndex,
+        maskData: Array(slice.pixelData.length).fill(1), // Mock mask data (all 1s)
+      }));
+      resolve({ segmentation_data: mockSegmentationData });
+    }, 1000); // Simulate network delay
+  });
 };
 
 export default SegmentationDropDownRow;
