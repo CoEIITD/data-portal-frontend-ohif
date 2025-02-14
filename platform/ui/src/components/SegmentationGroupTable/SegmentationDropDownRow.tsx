@@ -3,6 +3,7 @@ import { Select, Icon, Dropdown, Tooltip } from '../../components';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { globalServicesManager as servicesManager } from '../../../../app/src/appInit';
+import * as cornerstone from '@cornerstonejs/core';
 import {
   Types,
   Enums,
@@ -58,9 +59,12 @@ function SegmentationDropDownRow({
       const scalarData = labelmapVolume.getScalarData();
       const width = dimensions[0];
       const height = dimensions[1];
-
+      const generalSeriesModule = cornerstone.metaData.get('generalSeriesModule', imageId);
+      const studyInstanceUID = generalSeriesModule.studyInstanceUID;
       console.log(`Current Slice ID: ${sliceID}`);
       console.log(`Segmentation ID: ${segmentationId}`);
+      console.log(`Study Instance UID : ${studyInstanceUID}`);
+      console.log('GeneralSeriesModule:', generalSeriesModule);
 
       // Prepare slices for mock API (FORWARD)
       const numberOfSlices = 5; // You can change this easily later to test 2, 5, etc.
@@ -76,7 +80,13 @@ function SegmentationDropDownRow({
         slicesPixelData.push({
           sliceIndex: currentSliceIndex,
           pixelData: Array.from(slicePixelData),
+          studyInstanceUID,
+          generalSeriesModule,
         });
+        console.log(
+          'slicesPixelData:',
+          slicesPixelData.map(s => ({ sliceIndex: s.sliceIndex }))
+        );
 
         // Log inside the loop
       }
