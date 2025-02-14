@@ -61,20 +61,21 @@ function SegmentationDropDownRow({
       const height = dimensions[1];
       const generalSeriesModule = cornerstone.metaData.get('generalSeriesModule', imageId);
       const studyInstanceUID = generalSeriesModule.studyInstanceUID;
+      const seriesDescription =
+        generalSeriesModule.seriesDescription || activeSegmentation.description;
+
       console.log(`Current Slice ID: ${sliceID}`);
       console.log(`Segmentation ID: ${segmentationId}`);
       console.log(`Study Instance UID : ${studyInstanceUID}`);
       console.log('GeneralSeriesModule:', generalSeriesModule);
+      console.log(`Series Description : ${seriesDescription}`);
 
-      // Prepare slices for mock API (FORWARD)
-      const numberOfSlices = 5; // You can change this easily later to test 2, 5, etc.
-
+      const numberOfSlices = 5;
       const slicesPixelData = [];
       for (let i = 0; i < numberOfSlices; i++) {
-        const currentSliceIndex = sliceID - i; // Moving FORWARD (visually in your case)
+        const currentSliceIndex = sliceID - i;
 
-        if (currentSliceIndex < 0) break; // Prevent negative slice indices
-
+        if (currentSliceIndex < 0) break;
         const startIndex = currentSliceIndex * width * height;
         const slicePixelData = scalarData.slice(startIndex, startIndex + width * height);
         slicesPixelData.push({
@@ -82,15 +83,13 @@ function SegmentationDropDownRow({
           pixelData: Array.from(slicePixelData),
           studyInstanceUID,
           generalSeriesModule,
+          seriesDescription,
         });
         console.log(
           'slicesPixelData:',
           slicesPixelData.map(s => ({ sliceIndex: s.sliceIndex }))
         );
-
-        // Log inside the loop
       }
-      // Call mock API
       const response = await mockApiCallForSegmentation(slicesPixelData);
       const segmentation_data = response.segmentation_data;
 
@@ -99,7 +98,6 @@ function SegmentationDropDownRow({
         throw new Error('Invalid segmentation data');
       }
 
-      // Update Segmentation Data (FORWARD)
       segmentation_data.forEach(({ sliceIndex, maskData }) => {
         const startIndex = sliceIndex * width * height;
         for (let i = 0; i < maskData.length; i++) {
@@ -107,7 +105,6 @@ function SegmentationDropDownRow({
         }
       });
 
-      // Notify OHIF that segmentation data was modified
       const eventDetail = { segmentationId };
       const event = new CustomEvent(csToolsEnums.Events.SEGMENTATION_DATA_MODIFIED, {
         detail: eventDetail,
@@ -152,12 +149,10 @@ function SegmentationDropDownRow({
 
     try {
       const image = await imageLoader.loadAndCacheImage(imageId);
-      const pixelData = image.getPixelData(); // Uint16Array or Int16Array
+      const pixelData = image.getPixelData();
 
-      // Convert pixelData to a regular array for transmission
       const pixelDataArray = Array.from(pixelData);
 
-      // Send pixelData and imageId in the POST request
       const response = await fetch('http://localhost:8000/api/segment-image', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -171,14 +166,12 @@ function SegmentationDropDownRow({
       const { segmentation_data } = await response.json();
       console.log('Segmentation Data:', segmentation_data);
 
-      // Continue with segmentation logic...
       const labelmapVolume = segmentationService.getLabelmapVolume(segmentationId);
       const { dimensions } = labelmapVolume;
       const scalarData = labelmapVolume.getScalarData();
       const width = dimensions[0];
       const height = dimensions[1];
 
-      // Check if segmentation_data matches the expected size
       if (segmentation_data.length !== width * height) {
         console.error(
           `Segmentation data size (${segmentation_data.length}) does not match labelmap dimensions (${width * height})`
@@ -188,7 +181,6 @@ function SegmentationDropDownRow({
 
       const startIndex = sliceID * width * height;
 
-      // Update the scalar data with the new segmentation data
       for (let i = 0; i < segmentation_data.length; i++) {
         scalarData[startIndex + i] = segmentation_data[i];
       }
@@ -196,7 +188,6 @@ function SegmentationDropDownRow({
       const updatedSegmentSlice = scalarData.slice(startIndex, startIndex + width * height);
       console.log('Updated Segment Slice:', updatedSegmentSlice);
 
-      // Notify about the segmentation data modification
       const eventDetail = { segmentationId: segmentationId };
       const event = new CustomEvent(csToolsEnums.Events.SEGMENTATION_DATA_MODIFIED, {
         detail: eventDetail,
@@ -216,7 +207,7 @@ function SegmentationDropDownRow({
     } catch (error) {
       console.error('Error fetching segmentation data:', error);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
