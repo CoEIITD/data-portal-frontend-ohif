@@ -100,6 +100,7 @@
       "version": "3.9.0-beta.101"
     }
   ],
+
   "public": [
     {
       "directory": "./platform/public"
